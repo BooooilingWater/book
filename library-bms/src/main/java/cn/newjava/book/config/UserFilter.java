@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * 后台页面和接口的过滤器, 防止未登录的用户进行访问
- * @author 陈华强
  */
 @WebFilter(filterName = "userFilter", urlPatterns = "/user/*")
 @Slf4j
