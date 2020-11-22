@@ -21,9 +21,6 @@ import java.util.Map;
 
 /**
  * (Admin)表控制层
- *
- * @author 陈华强
- * @since 2019-10-22 13:13:08
  */
 @Controller
 @RequestMapping("admin")
