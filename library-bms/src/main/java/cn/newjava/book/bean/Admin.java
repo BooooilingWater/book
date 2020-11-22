@@ -12,7 +12,6 @@ public class Admin implements Serializable {
     private static final long serialVersionUID = -36092566733016637L;
     
     private Integer id;
-    
     private String name;
     
     private String password;
