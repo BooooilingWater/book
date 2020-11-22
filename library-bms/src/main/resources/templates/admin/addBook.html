@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>录入新书</title>
+</head>
+<body>
+<div th:replace="admin/header :: header"></div>
+<div class="main">
+    <div class="add-book-pane">
+        <div class="pane-title">
+            录入新书
+        </div>
+        <form class="layui-form layui-form-pane" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">书名</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" name="name" required  lay-verify="required" placeholder="请输入书名"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">作者</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" name="author" required  lay-verify="required" placeholder="请输入作者"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出版社</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" name="publish" placeholder="请输入出版社"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">类别</label>
+                <div class="layui-input-block">
+                    <select name="categoryId" lay-search="" required  lay-verify="required">
+                        <option value="">直接选择或搜索选择</option>
+                        <option th:each="item:${list}" th:value="${item.id}" th:text="${item.name}">请选择一个类别</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">价格</label>
+                <div class="layui-input-block">
+                    <input id="price" class="layui-input" name="price" lay-verify="price" placeholder="请输入价格"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">书籍简介</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" name="introduction" placeholder="请输入本书简介"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="*">立即添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        form.verify({
+            price: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (/^\d+(\.\d{1,2})?$/.test(value)) {
+                } else {
+                    return "价格框请输入精度为两位小数以内的正数！";
+                }
+            }
+        });
+
+        // 表单提交
+        form.on('submit(*)', function (data) {
+            var price = data.field.price;
+
+            $.ajax({
+                url: "./book/add",
+                type: "POST",
+                data: data.field,
+                success: function (data) {
+                    if (data.status === 200) {
+                        layer.msg("添加成功");
+                    } else if (data.status === 201) {
+                        layer.msg(data.data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    layer.msg("网络请求失败", {icon: 2})
+                }
+            });
+            return false; //阻止表单跳转。
+        });
+    });
+</script>
+</body>
+</html>

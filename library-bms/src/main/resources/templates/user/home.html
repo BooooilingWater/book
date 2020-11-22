@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="user/header :: header"></div>
+<!-- 内容主体 -->
+<div class="main">
+    <p>欢迎使用院图书馆管理系统</p>
+    <p>请点击顶部导航栏进行功能选择</p>
+</div>
+
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+
+</body>
+</html>

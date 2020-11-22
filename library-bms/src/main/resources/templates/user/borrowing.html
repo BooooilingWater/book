@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>借书</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="user/header :: header"></div>
+
+<div class="main">
+    <div class="borrowing-pane">
+        <p style="text-align: center;">用户借书</p>
+        <form class="layui-form" action="#">
+            <div class="layui-form-item">
+                <label class="layui-form-label">书籍编号</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="number" type="text" name="bookId">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:left;">
+                    <button class="layui-btn" lay-submit="" lay-filter="*">确认借书</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        // 表单提交
+        form.on('submit(*)', function (data) {
+            console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+            $.ajax({
+                url: "./borrowing/add",
+                type: "POST",
+                data: data.field,
+                success: function (data) {
+                    if (data.status === 200) {
+                        layer.msg("借书成功")
+                    } else if (data.status === 201) {
+                        layer.msg(data.data)
+                    } else if (data.status === 411) {
+                        layer.msg('借阅失败, 未登录或登录过期!')
+                        setInterval(function () {
+                            window.location.href = "/"
+                        }, 1000);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    layer.msg("网络请求错误")
+                }
+            });
+            return false; //阻止表单跳转。
+        });
+    });
+</script>
+</body>
+</html>

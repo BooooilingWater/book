@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>index</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <style>
+        .login-title {
+            width: 100%;
+            height: 60px;
+        }
+
+        .layui-input {
+            border-radius: 5px;
+        }
+
+        .layui-btn {
+            border-radius: 5px;
+        }
+        .description {
+            position: relative;
+            margin: 0 auto;
+            margin-top: 50px;
+            padding: 1em 1em 0 1em ;
+            /*max-width: 23em;*/
+            width: 400px;
+            background: hsla(0, 0%, 100%, .25) border-box;
+            overflow: hidden;
+            border-radius: .3em;
+            box-shadow: 0 0 0 1px hsla(0, 0%, 100%, .3) inset,
+            0 .5em 1em rgba(0, 0, 0, 0.6);
+        }
+
+        /*使用滤镜模糊边缘*/
+        .description::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: -30px;
+            z-index: -1;
+            -webkit-filter: blur(20px);
+            filter: blur(20px);
+        }
+    </style>
+</head>
+<body background="./img/bg.jpg">
+<!-- 登录页面 -->
+<div class="login-pane description">
+    <div class="login-title">
+        <div style="font-size: 20px;margin: 0 auto;width: fit-content;">登录</div>
+        <div style="font-size: 10px;float: right">没有账号? 立即<a id="to-register" style="color: #1E9FFF"
+                                                             href="###">注册</a></div>
+    </div>
+    <form class="layui-form layui-form-pane" action="#">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" lay-verify="username"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" placeholder="密码" autocomplete="off" lay-verify="pass"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="*">立即登录</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 注册页面 -->
+<div style="display: none" id="register">
+    <div class="register-pane" style="padding: 20px 20px 0 20px">
+        <form class="layui-form layui-form-pane" action="#">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" lay-verify="username"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" placeholder="请输入密码" autocomplete="off" lay-verify="pass"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="rePassword" placeholder="请再输入一次密码" autocomplete="off" lay-verify="pass"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="register">立即注册</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="./layui/layui.js"></script>
+<script src="./js/login.js"></script>
+</body>
+
+</html>

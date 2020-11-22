@@ -1,0 +1,82 @@
+.main {
+    width: 100%;
+    text-align: center;
+}
+
+.main p {
+    font-size: 60px;
+    margin: 40px;
+    font-family: "华文行楷", serif;
+}
+
+.borrowing-pane {
+    background: rgba(255, 255, 255, .7);
+    border-radius: 10px;
+    width: 400px;
+    margin: 0 auto;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 50px;;
+}
+
+.table-pane {
+    text-align: left;
+    width: 900px;
+    margin: 0 auto;
+}
+
+.books-pane {
+    text-align: left;
+    width: 1100px;
+    margin: 0 auto;
+    background: white;
+}
+
+.center-pane {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.add-book-pane {
+    margin: 0 auto; width: 400px;
+
+}
+
+.main form{
+    text-align: left;
+}
+
+.pane-title {
+   font-size: large;
+    padding: 20px;
+}
+
+.users-pane {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.add-user-pane {
+    padding: 20px 20px 0 20px;
+    margin: 0 auto;
+    width: 600px;
+}
+
+.borrowings-pane {
+    margin: 0 auto;
+    width: 1000px;
+    text-align: left;
+}
+
+.admin-login-pane {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.admin-login-pane .login-title {
+    padding: 10px;
+}

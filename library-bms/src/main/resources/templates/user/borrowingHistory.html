@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>借书记录</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="user/header :: header"></div>
+
+<div class="main">
+    <p>个人借书记录</p>
+    <div class="table-pane">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>价格</th>
+                <th>简介</th>
+                <th>借书时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item:${list}">
+                <td th:text="${item.bookId}"></td>
+                <td th:text="'《'+${item.book.name} + '》'"></td>
+                <td th:text="${item.book.author}"></td>
+                <td th:text="${item.book.price}"></td>
+                <td th:text="${item.book.introduction}"></td>
+                <td th:text="${#dates.format(item.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>所有借书记录</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="admin/header :: header"></div>
+<div class="main">
+    <div class="pane-title">借书记录</div>
+    <div class="borrowings-pane">
+        <table class="layui-hide" id="test"></table>
+    </div>
+</div>
+
+<script>
+    layui.use(['table'], function () {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , id: "test"
+            , url: 'borrowing/list'
+            , cols: [
+                [
+                    {field: 'userId', minWidth: 80, title: '用户编号'}
+                    , {field: 'username', minWidth: 200, title: '用户名'}
+                    , {field: 'bookId', minWidth: 80, title: '书籍编号'}
+                    , {field: 'bookName', minWidth: 200, title: '书名'}
+                    , {field: 'createTime', minWidth: 200, title: '借阅时间'}
+                    , {field: 'returnTime', minWidth: 200, title: '归还截至时间', sort: true}
+                ]
+            ]
+            , page: true
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询书籍</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="user/header :: header"></div>
+<!-- 内容主体 -->
+<div class="main">
+    <div style="font-size: 50px;font-family: '华文行楷';padding-top: 10px">查询书籍</div>
+    <div class="books-pane">
+        <table class="layui-hide" id="test"></table>
+        <!--工具栏模板：-->
+        <div type="text/html" id="toolbar" style="display: none;">
+            <form class="layui-form layui-form-pane" lay-size="lg" style="text-align: left;height: 36px">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">书名</label>
+                        <div class="layui-input-inline">
+                            <input placeholder="宁可少字, 不要错字" type="text" name="bookName" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <select name="categoryId" lay-verify="">
+                            <option value="">请选择一个类别</option>
+                            <option th:each="item:${list}" th:value="${item.id}" th:text="${item.name}">请选择一个类别</option>
+                        </select>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="*">立即筛选</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['element', 'table', 'form', 'jquery'], function () {
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        table.render({
+            elem: '#test'
+            , id: "test"
+            , url: './book/search'
+            , toolbar: '#toolbar'
+            , title: '查询书籍'
+            , cols: [
+                [
+                    {field: 'id', width: 80, title: 'ID', sort: true}
+                    , {field: 'name', width: 150, title: '书名'}
+                    , {field: 'author', width: 150, title: '作者', sort: true}
+                    , {field: 'publish', width: 200, title: '出版社'}
+                    , {field: 'price', width: 80, title: '价格'}
+                    , {field: 'categoryName', width: 150, title: '类别', sort: true}
+                    , {field: 'introduction', width: 200, title: '简介', sort: true}
+                    , {field: 'status', width: 80, title: '状态'}
+                ]
+            ]
+            , page: true
+        });
+
+        form.on('submit(*)', function (data) {
+            console.log(data.field);
+            table.reload('test', {
+                url: './book/search'
+                , where: {bookName: data.field.bookName, categoryId:data.field.categoryId} //设定异步数据接口的额外参数
+                //,height: 300
+            });
+            return false
+        });
+    });
+</script>
+</body>
+</html>

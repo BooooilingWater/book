@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>header</title>
+    </head>
+    <body>
+        <div th:fragment="header" class="layui-layout layui-layout-admin">
+<!--            <link rel="stylesheet" href="../layui/css/layui.css">-->
+            <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+            <link rel="stylesheet" href="../css/home.css">
+<!--            <script src="../layui/layui.js"></script>-->
+            <script src="https://www.layuicdn.com/layui/layui.js"></script>
+            <script>
+                layui.use(['element'])
+            </script>
+            <style>
+                body {
+                    background-image: url("../img/bg.jpg");
+                }
+            </style>
+            <div class="layui-header">
+                <div class="layui-logo" style="width: 230px; color: white;font-family: '华文行楷';font-size: 22px;">图书馆管理系统</div>
+                <!-- 头部区域（可配合layui已有的水平导航） -->
+                <ul class="layui-nav layui-layout-left ">
+                    <li class="layui-nav-item">
+                        <a href="./home">首 页</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">借阅管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="./borrowing">借阅书籍</a>
+                            </dd>
+                            <dd>
+                                <a href="./borrowingHistory">借阅记录</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">书籍管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="./findBook">查询书籍</a>
+                            </dd>
+                            <dd>
+                                <a href="./returnBook">归还书籍</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./center">个人信息</a>
+                    </li>
+                </ul>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <img src="../img/user-head.jpeg" class="layui-nav-img">
+                            <span th:text="${session.user.truename}"></span>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="./center">基本资料</a>
+                            </dd>
+                            <dd>
+                                <a href="./password">安全设置</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./logout">退出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

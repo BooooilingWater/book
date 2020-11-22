@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.newjava.book.mapper.BorrowingMapper">
+
+    <resultMap type="cn.newjava.book.bean.Borrowing" id="BorrowingMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="bookId" column="book_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap type="cn.newjava.book.bean.vo.BorrowingVo" id="BorrowingVoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="bookId" column="book_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <association property="book" javaType="cn.newjava.book.bean.Book">
+            <result property="name" column="book_name" jdbcType="VARCHAR"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="OTHER"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BorrowingMap">
+        select id,
+               user_id,
+               book_id,
+               create_time,
+               status
+        from t_borrowing
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BorrowingMap">
+        select id,
+               user_id,
+               book_id,
+               create_time
+        from t_borrowing
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BorrowingVoMap">
+        SELECT
+        t_borrowing.id,
+        t_borrowing.user_id,
+        t_borrowing.book_id,
+        t_borrowing.create_time,
+        t_book.`name` book_name,
+        t_user.username,
+        t_book.author,
+        t_book.price,
+        t_book.introduction
+        FROM
+        t_borrowing
+        INNER JOIN t_user ON t_borrowing.user_id = t_user.id
+        INNER JOIN t_book ON t_borrowing.book_id = t_book.id
+        <where>
+            <if test="id != null">
+                and t_borrowing.id = #{id}
+            </if>
+            <if test="userId != null">
+                and t_borrowing.user_id = #{userId}
+            </if>
+            <if test="bookId != null">
+                and t_borrowing.book_id = #{bookId}
+            </if>
+        </where>
+    </select>
+    <select id="queryByBookId" resultType="cn.newjava.book.bean.Borrowing">
+        select *
+        from t_borrowing
+        where book_id = #{bookId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_borrowing(user_id, book_id)
+        values (#{userId}, #{bookId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_borrowing
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="bookId != null">
+                book_id = #{bookId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_borrowing
+        where id = #{id}
+    </delete>
+    <delete id="deleteByUserIdAndBookId">
+        delete
+        from t_borrowing
+        where user_id = #{userId}
+          and book_id = #{bookId}
+    </delete>
+
+</mapper>

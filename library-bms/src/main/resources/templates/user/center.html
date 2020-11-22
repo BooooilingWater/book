@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+</head>
+<body>
+<!-- 头部引入头部页面 -->
+<div th:replace="user/header :: header"></div>
+<!-- 内容主体 -->
+<div class="main">
+    <p>个人中心</p>
+    <div class="center-pane">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">真实姓名</th>
+                <th style="text-align: center">用户名</th>
+                <th style="text-align: center">邮件</th>
+                <th style="text-align: center">联系方式</th>
+                <th style="text-align: center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getTruename()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.getPhone()}"></td>
+                <td style="text-align: center">
+                    <button id="openEdit" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- 弹窗表单 -->
+<div style="display:none;" id="edit-pane">
+    <form class="layui-form layui-form-pane" style="margin: 0 auto; padding:20px 20px 0px 20px;">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">真实姓名</label>
+            <div class="layui-input-block">
+                <input th:value="${user.getTruename()}" class="layui-input" name="truename" lay-verify="truename"
+                       placeholder="请输入真实姓名">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input th:value="${user.getUsername()}" class="layui-input" name="username" lay-verify="username"
+                       placeholder="请输入用户名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input th:value="${user.getEmail()}" type="text" name="email" placeholder="请输入邮箱" autocomplete="off"
+                       lay-verify="email"
+                       class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-block">
+                <input th:value="${user.getPhone()}" type="text" name="phone" placeholder="请输入联系方式" autocomplete="off"
+                       lay-verify="phone"
+                       class="layui-input"/>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="*">确认更改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        $('#openEdit').click(function (e) {
+            layer.open({
+                title: '编辑个人信息',
+                type: 1,
+                content: $('#edit-pane'),
+                area: ['450px', 'auto'],
+                offset: '150px'
+            })
+        })
+
+        // 表单验证
+        form.verify({
+            username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if (/^\d+\d+\d$/.test(value)) {
+                    return '用户名不能全为数字';
+                }
+            }
+        });
+
+        // 表单提交
+        form.on('submit(*)', function (data) {
+            $.ajax({
+                url: "./update",
+                type: "POST",
+                data: data.field,
+                success: function (data) {
+                    if (data.status === 200) {
+                        layer.msg("更新个人信息成功");
+                    } else if (data.status === 201) {
+                        layer.msg(data.data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 400) {
+                        layer.msg('格式不正确')
+                    } else {
+                        layer.msg("网络请求失败")
+                    }
+                }
+            });
+            return false; //阻止表单跳转。
+        });
+    });
+</script>
+</body>
+
+
+</html>
