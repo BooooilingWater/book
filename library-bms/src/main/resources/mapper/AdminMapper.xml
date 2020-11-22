@@ -9,7 +9,7 @@
         <result property="email" column="email" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询单个-->
+    <!--查询单个 -->
     <select id="queryById" resultMap="AdminMap">
         select
           id, name, password, email
